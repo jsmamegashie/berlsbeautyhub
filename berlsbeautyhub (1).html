@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Berls Beauty Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#F4B8CC;
+  --pink-deep:#e88aab;
+  --black:#1A1A1A;
+  --white:#FFFFFF;
+  --soft:#FCE8F0;
+  --gray:#857d82;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:'DM Sans',sans-serif;color:var(--black);background:var(--white);}
+body{padding-bottom:74px;overscroll-behavior-y:none;}
+h1,h2,h3{font-family:'Playfair Display',serif;}
+img{max-width:100%;display:block;object-fit:cover;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+a{color:inherit;text-decoration:none;}
+input,select,textarea{font-family:inherit;}
+
+/* top header */
+.topbar{
+  position:sticky;top:0;z-index:40;background:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid #f3e4ec;
+}
+.logo{font-family:'Playfair Display',serif;font-weight:700;font-size:19px;}
+.logo span{color:var(--pink-deep);}
+.topbar .wa{
+  width:36px;height:36px;border-radius:50%;background:#25D366;color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+
+.view{display:none;}
+.view.active{display:block;animation:fadein .2s ease;}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+.wrap{padding:18px;max-width:560px;margin:0 auto;}
+
+/* bottom tab nav */
+.tabbar{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  background:#fff;border-top:1px solid #f0dde6;
+  display:flex;justify-content:space-around;
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+  box-shadow:0 -4px 16px rgba(0,0,0,.05);
+}
+.tabbtn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:11px;color:var(--gray);font-weight:600;flex:1;padding:4px 0;
+}
+.tabbtn .ic{font-size:20px;}
+.tabbtn.active{color:var(--pink-deep);}
+
+/* hero */
+.hero{
+  border-radius:var(--r);overflow:hidden;position:relative;height:230px;margin-bottom:18px;
+}
+.hero img{width:100%;height:100%;object-fit:cover;}
+.hero .ovl{
+  position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.65) 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#fff;
+}
+.hero h1{font-size:24px;margin-bottom:6px;line-height:1.15;}
+.hero p{font-size:13px;opacity:.9;margin-bottom:12px;}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:13px 20px;border-radius:30px;font-size:14.5px;font-weight:700;
+  background:var(--pink);color:var(--black);width:100%;
+}
+.btn.outline{background:#fff;border:1.5px solid #fff;color:#fff;}
+.btn.outline.dark{background:transparent;border:1.5px solid var(--black);color:var(--black);}
+.btn.sm{padding:9px 16px;font-size:13px;width:auto;}
+.btn.dark{background:var(--black);color:#fff;}
+
+.section-title{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 12px;}
+.section-title h2{font-size:18px;}
+.section-title .more{font-size:12.5px;color:var(--pink-deep);font-weight:700;}
+
+.hcats{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
+.hcats::-webkit-scrollbar{display:none;}
+.hcat{
+  flex:0 0 86px;text-align:center;
+}
+.hcat .ic{
+  width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto 6px;
+  border:2px solid var(--soft);
+}
+.hcat .ic img{width:100%;height:100%;}
+.hcat span{font-size:11.5px;font-weight:600;}
+
+.card{
+  background:#fff;border:1px solid #f3e4ec;border-radius:var(--r);overflow:hidden;
+  margin-bottom:14px;
+}
+.card .thumb{height:140px;width:100%;}
+.card .thumb img{width:100%;height:100%;}
+.card .cbody{padding:14px;}
+.card h3{font-size:15.5px;font-family:'DM Sans',sans-serif;font-weight:700;margin-bottom:3px;}
+.card p{font-size:12.5px;color:var(--gray);margin-bottom:8px;line-height:1.4;}
+.card .row{display:flex;justify-content:space-between;align-items:center;}
+.price{font-weight:700;color:var(--pink-deep);font-size:14px;}
+
+.trustrow{display:flex;gap:10px;margin:16px 0;}
+.trustchip{
+  flex:1;background:var(--soft);border-radius:12px;padding:12px 8px;text-align:center;
+}
+.trustchip .ic{font-size:22px;margin-bottom:4px;}
+.trustchip span{font-size:11px;font-weight:600;display:block;}
+
+.review{background:var(--soft);border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.stars{color:var(--pink-deep);font-size:13px;margin-bottom:4px;}
+.review p{font-size:13px;margin-bottom:6px;}
+.review .who{font-size:12px;font-weight:700;}
+
+/* services tab */
+.catgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.catcard{
+  border-radius:var(--r);overflow:hidden;position:relative;height:120px;border:1px solid #f3e4ec;
+}
+.catcard img{width:100%;height:100%;object-fit:cover;}
+.catcard .lbl{
+  position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.6) 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:10px;color:#fff;
+}
+.catcard .lbl b{font-size:13.5px;}
+.catcard .lbl small{font-size:11px;opacity:.9;}
+
+.backbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.backbar button{font-size:13px;font-weight:700;color:var(--pink-deep);display:flex;align-items:center;gap:4px;}
+
+/* products grid */
+.prodgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.prodgrid .card{margin-bottom:0;}
+.prodgrid .thumb{height:110px;}
+
+/* profile */
+.profhead{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid var(--pink);flex-shrink:0;}
+.avatar img{width:100%;height:100%;}
+.profhead h2{font-size:18px;}
+.profhead .tier{font-size:12px;color:var(--pink-deep);font-weight:700;}
+
+.tabbar2{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px;scrollbar-width:none;}
+.tabbar2::-webkit-scrollbar{display:none;}
+.tabbar2 button{
+  flex:0 0 auto;padding:8px 14px;border-radius:30px;background:#f3eef0;font-size:12.5px;font-weight:700;color:var(--gray);
+}
+.tabbar2 button.active{background:var(--pink);color:var(--black);}
+
+.panel{background:#fff;border:1px solid #f3e4ec;border-radius:var(--r);padding:16px;margin-bottom:14px;}
+.panel h3{font-size:14.5px;font-family:'DM Sans',sans-serif;font-weight:700;margin-bottom:10px;}
+.rowline{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f5ecf0;font-size:13px;}
+.rowline:last-child{border-bottom:none;}
+.badge{padding:3px 10px;border-radius:30px;font-size:11px;font-weight:700;}
+.badge.green{background:#e3f6e9;color:#1d8a4a;}
+.badge.gray{background:#f0eced;color:#7a747a;}
+.badge.pink{background:var(--soft);color:var(--pink-deep);}
+.progress{height:8px;background:#f0eced;border-radius:30px;overflow:hidden;margin-top:8px;}
+.progress>div{height:100%;background:var(--pink-deep);}
+.codebox{
+  background:var(--soft);border-radius:12px;padding:14px;text-align:center;margin-top:8px;
+}
+.codebox .code{font-size:19px;font-weight:700;letter-spacing:1.5px;color:var(--pink-deep);margin-top:4px;}
+
+/* forms */
+label{display:block;font-size:12.5px;font-weight:700;margin:12px 0 6px;}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],select,textarea{
+  width:100%;padding:12px 13px;border:1.5px solid #ecdfe6;border-radius:10px;font-size:14px;outline:none;background:#fff;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--pink);}
+.checkrow{display:flex;gap:8px;align-items:flex-start;margin:10px 0;font-size:12px;color:var(--gray);line-height:1.4;}
+.checkrow input{margin-top:2px;width:auto;flex-shrink:0;}
+
+/* booking steps */
+.steps{display:flex;justify-content:center;gap:5px;margin-bottom:18px;}
+.dot{width:8px;height:8px;border-radius:50%;background:#f0dde6;}
+.dot.active{background:var(--pink-deep);width:22px;border-radius:6px;}
+.box-pink{background:var(--soft);border-left:4px solid var(--pink-deep);border-radius:10px;padding:13px;font-size:12.5px;margin:14px 0;}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;border:1.5px solid #ecdfe6;border-radius:30px;padding:9px 14px;
+  font-size:12.5px;font-weight:600;margin:0 6px 8px 0;
+}
+.chip.active{background:var(--pink);border-color:var(--pink);}
+.chiprow{display:flex;flex-wrap:wrap;}
+
+.fab-bella{
+  position:fixed;bottom:88px;right:16px;width:54px;height:54px;border-radius:50%;
+  background:var(--pink);box-shadow:0 6px 20px rgba(244,184,204,.7);display:flex;align-items:center;justify-content:center;
+  font-size:23px;z-index:55;
+}
+.bella-panel{
+  position:fixed;bottom:150px;right:16px;left:16px;max-width:380px;margin:0 auto;background:#fff;border-radius:18px;
+  box-shadow:0 16px 50px rgba(0,0,0,.2);z-index:55;display:none;flex-direction:column;overflow:hidden;border:1px solid #f1e3ea;
+  max-height:50vh;
+}
+.bella-panel.open{display:flex;}
+.bella-head{background:var(--pink);padding:12px 14px;font-weight:700;font-size:13.5px;display:flex;justify-content:space-between;align-items:center;}
+.bella-body{flex:1;padding:12px;overflow-y:auto;font-size:13px;display:flex;flex-direction:column;gap:8px;min-height:120px;}
+.bmsg{max-width:85%;padding:8px 11px;border-radius:12px;line-height:1.4;}
+.bmsg.bot{background:var(--soft);align-self:flex-start;}
+.bmsg.user{background:var(--black);color:#fff;align-self:flex-end;}
+.bella-input{display:flex;border-top:1px solid #f1e3ea;}
+.bella-input input{flex:1;border:none;padding:11px;font-size:13px;outline:none;}
+.bella-input button{padding:0 14px;background:var(--pink);font-weight:700;font-size:13px;}
+
+@media(min-width:680px){
+  .wrap{max-width:680px;}
+}
+.empty{text-align:center;color:var(--gray);font-size:13px;padding:30px 0;}
+.toast{
+  position:fixed;bottom:90px;left:16px;right:16px;background:var(--black);color:#fff;padding:13px 16px;
+  border-radius:12px;font-size:13px;text-align:center;z-index:90;display:none;max-width:480px;margin:0 auto;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">Berls <span>Beauty Hub</span></div>
+  <a class="wa" href="https://wa.me/233240000000" target="_blank" rel="noopener">💬</a>
+</header>
+
+<!-- HOME -->
+<main class="view active" id="view-home">
+  <div class="wrap">
+    <div class="hero">
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=70" alt="Berls Beauty Hub">
+      <div class="ovl">
+        <h1>Beauty, Crafted<br>With Care</h1>
+        <p>Wigs, braids, natural styles &amp; colour — booked in minutes</p>
+        <button class="btn" data-go="book">Book Now</button>
+      </div>
+    </div>
+
+    <div class="section-title"><h2>Categories</h2><button class="more" data-go="services">See all</button></div>
+    <div class="hcats" id="home-cats"></div>
+
+    <div class="trustrow">
+      <div class="trustchip"><div class="ic">💖</div><span>Expert Stylists</span></div>
+      <div class="trustchip"><div class="ic">🎁</div><span>Loyalty Rewards</span></div>
+      <div class="trustchip"><div class="ic">✨</div><span>Premium Products</span></div>
+    </div>
+
+    <div class="section-title"><h2>What Clients Say</h2></div>
+    <div id="home-reviews"></div>
+
+    <div class="section-title"><h2>Gift Cards</h2></div>
+    <div class="card">
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=700&q=70" alt="Gift card"></div>
+      <div class="cbody">
+        <h3>Give the Gift of Beauty</h3>
+        <p>Buy a gift card for someone special — delivered instantly by email.</p>
+        <button class="btn outline dark" style="background:var(--black);color:#fff;border-color:var(--black)" data-go="giftcards">Buy a Gift Card</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- SERVICES -->
+<main class="view" id="view-services">
+  <div class="wrap">
+    <h2 style="margin-bottom:14px;font-size:20px">Services</h2>
+    <div id="cat-list" class="catgrid"></div>
+    <div id="style-list" style="display:none"></div>
+  </div>
+</main>
+
+<!-- PRODUCTS -->
+<main class="view" id="view-products">
+  <div class="wrap">
+    <h2 style="margin-bottom:14px;font-size:20px">Products</h2>
+    <div class="prodgrid" id="prod-list"></div>
+  </div>
+</main>
+
+<!-- GIFT CARDS (linked from home) -->
+<main class="view" id="view-giftcards">
+  <div class="wrap">
+    <div class="backbar"><button data-go="home">← Back</button></div>
+    <h2 style="margin-bottom:14px;font-size:20px">Gift Cards</h2>
+    <label>Choose an amount (GHS)</label>
+    <div class="chiprow" id="gc-presets"></div>
+    <label>Or custom amount (min GHS 20)</label>
+    <input type="number" id="gc-custom" placeholder="e.g. 250">
+    <label>Recipient name</label>
+    <input type="text" placeholder="e.g. Ama Mensah">
+    <label>Recipient email</label>
+    <input type="email" placeholder="ama@email.com">
+    <label>Personal message (optional)</label>
+    <textarea rows="3" placeholder="Happy birthday! Enjoy 💖"></textarea>
+    <label>Your name</label>
+    <input type="text" placeholder="Sender name">
+    <button class="btn dark" style="margin-top:18px" id="gc-pay">Pay with Paystack — GHS <span id="gc-total">100</span></button>
+  </div>
+</main>
+
+<!-- BOOK NOW -->
+<main class="view" id="view-book">
+  <div class="wrap" id="book-wrap">
+    <div class="steps" id="book-steps"></div>
+    <div id="book-content"></div>
+  </div>
+</main>
+
+<!-- PROFILE -->
+<main class="view" id="view-profile">
+  <div class="wrap">
+    <div class="profhead">
+      <div class="avatar"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=70" alt="Profile"></div>
+      <div>
+        <h2>Hi, Akosua 👋</h2>
+        <span class="tier">Silver Member · 320 pts</span>
+      </div>
+    </div>
+    <div class="tabbar2" id="prof-tabs"></div>
+    <div id="prof-content"></div>
+  </div>
+</main>
+
+<button class="fab-bella" id="bella-fab">✨</button>
+<div class="bella-panel" id="bella-panel">
+  <div class="bella-head">Bella · AI Assistant <span id="bella-close" style="cursor:pointer">✕</span></div>
+  <div class="bella-body" id="bella-body">
+    <div class="bmsg bot">Hi! I'm Bella 💕 Ask me about services, loyalty, birthday discounts, gift cards or referrals.</div>
+  </div>
+  <div class="bella-input">
+    <input id="bella-input" placeholder="Ask Bella anything...">
+    <button id="bella-send">Send</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<nav class="tabbar" id="tabbar">
+  <button class="tabbtn active" data-go="home"><span class="ic">🏠</span>Home</button>
+  <button class="tabbtn" data-go="services"><span class="ic">💇🏾‍♀️</span>Services</button>
+  <button class="tabbtn" data-go="book"><span class="ic">📅</span>Book Now</button>
+  <button class="tabbtn" data-go="products"><span class="ic">🛍️</span>Products</button>
+  <button class="tabbtn" data-go="profile"><span class="ic">👤</span>Profile</button>
+</nav>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- DATA ---------------- */
+var categories = [
+  {id:'wigs',name:'Wig Installation',img:'https://images.unsplash.com/photo-1605980625600-88e9ab6700e3?w=500&q=70',price:'GHS 150–400'},
+  {id:'braids',name:'Braids',img:'https://images.unsplash.com/photo-1626954079673-7d2278f3b6c6?w=500&q=70',price:'GHS 100–350'},
+  {id:'natural',name:'Natural Styles',img:'https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?w=500&q=70',price:'GHS 80–250'},
+  {id:'locs',name:'Loc Styles',img:'https://images.unsplash.com/photo-1622288432454-26c4b7d72868?w=500&q=70',price:'GHS 120–300'},
+  {id:'colour',name:'Colour Treatments',img:'https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=70',price:'GHS 200–500'},
+  {id:'custom',name:'Custom / Other',img:'https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=500&q=70',price:'Quoted by admin'}
+];
+var styles = {
+  wigs:[{name:'Closure Install',price:180,img:'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=500&q=70'},
+        {name:'Frontal Install',price:280,img:'https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?w=500&q=70'},
+        {name:'Wig Revamp',price:120,img:'https://images.unsplash.com/photo-1580618864180-f6d7d39b8ff6?w=500&q=70'}],
+  braids:[{name:'Knotless Braids',price:200,img:'https://images.unsplash.com/photo-1626954079673-7d2278f3b6c6?w=500&q=70'},
+        {name:'Box Braids',price:180,img:'https://images.unsplash.com/photo-1601455763557-db1bea8a9a5a?w=500&q=70'},
+        {name:'Cornrows',price:120,img:'https://images.unsplash.com/photo-1620656798579-1984d9e87df7?w=500&q=70'}],
+  natural:[{name:'Twist Out',price:90,img:'https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?w=500&q=70'},
+        {name:'Wash & Style',price:80,img:'https://images.unsplash.com/photo-1556228852-6d35a585d566?w=500&q=70'},
+        {name:'Silk Press',price:150,img:'https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=500&q=70'}],
+  locs:[{name:'Loc Retwist',price:130,img:'https://images.unsplash.com/photo-1622288432454-26c4b7d72868?w=500&q=70'},
+        {name:'Loc Styling',price:150,img:'https://images.unsplash.com/photo-1622288432454-26c4b7d72868?w=500&q=70'},
+        {name:'Starter Locs',price:250,img:'https://images.unsplash.com/photo-1622288432454-26c4b7d72868?w=500&q=70'}],
+  colour:[{name:'Full Colour',price:350,img:'https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=70'},
+        {name:'Highlights',price:280,img:'https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=70'},
+        {name:'Toning',price:200,img:'https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=70'}]
+};
+var addonsList = [
+  {name:'Hair washing & blow-dry',price:30},
+  {name:'Deep conditioning treatment',price:40},
+  {name:'Scalp treatment',price:35},
+  {name:'Trim and cut',price:25},
+  {name:'Hair oiling and treatment',price:20}
+];
+var products = [
+  {name:'Edge Control Gel',price:45,img:'https://images.unsplash.com/photo-1585232351009-aa87416fca90?w=500&q=70'},
+  {name:'Leave-In Conditioner',price:60,img:'https://images.unsplash.com/photo-1556228852-6d35a585d566?w=500&q=70'},
+  {name:'Scalp Oil Treatment',price:55,img:'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&q=70'},
+  {name:'Satin Bonnet',price:35,img:'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=500&q=70'},
+  {name:'Detangling Brush',price:30,img:'https://images.unsplash.com/photo-1599751449628-8ce17ec8e6da?w=500&q=70'},
+  {name:'Curl Defining Cream',price:50,img:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&q=70'}
+];
+var reviewsData = [
+  {name:'Adwoa K.',rating:5,text:'Best wig install I have ever had! So neat and lasted weeks.'},
+  {name:'Naa A.',rating:5,text:'Loved my braids, the team is so professional and warm.'},
+  {name:'Esi B.',rating:4,text:'Great service, loyalty points are a nice bonus too!'}
+];
+
+/* ---------------- NAVIGATION ---------------- */
+var views = ['home','services','products','giftcards','book','profile'];
+function go(name){
+  views.forEach(function(v){
+    var el = document.getElementById('view-'+v);
+    if(el) el.classList.toggle('active', v===name);
+  });
+  document.querySelectorAll('.tabbtn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-go')===name);
+  });
+  window.scrollTo(0,0);
+  if(name==='services') resetServices();
+  if(name==='profile') renderProfileTab('appointments');
+}
+document.addEventListener('click', function(e){
+  var t = e.target.closest('[data-go]');
+  if(t){ go(t.getAttribute('data-go')); }
+});
+
+function showToast(msg){
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.display='block';
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.style.display='none'; }, 2600);
+}
+
+/* ---------------- HOME ---------------- */
+function renderHomeCats(){
+  var el = document.getElementById('home-cats');
+  el.innerHTML = categories.map(function(c){
+    return '<div class="hcat" data-cat="'+c.id+'">'+
+      '<div class="ic"><img src="'+c.img+'" alt="'+c.name+'"></div>'+
+      '<span>'+c.name+'</span></div>';
+  }).join('');
+  el.querySelectorAll('.hcat').forEach(function(node){
+    node.addEventListener('click', function(){
+      go('services');
+      openCategory(node.getAttribute('data-cat'));
+    });
+  });
+}
+function renderHomeReviews(){
+  document.getElementById('home-reviews').innerHTML = reviewsData.map(function(r){
+    return '<div class="review"><div class="stars">'+'★'.repeat(r.rating)+'☆'.repeat(5-r.rating)+'</div>'+
+      '<p>"'+r.text+'"</p><div class="who">— '+r.name+'</div></div>';
+  }).join('');
+}
+
+/* ---------------- SERVICES ---------------- */
+function resetServices(){
+  document.getElementById('cat-list').style.display='grid';
+  document.getElementById('style-list').style.display='none';
+  renderCatList();
+}
+function renderCatList(){
+  document.getElementById('cat-list').innerHTML = categories.map(function(c){
+    return '<div class="catcard" data-cat="'+c.id+'"><img src="'+c.img+'" alt="'+c.name+'">'+
+      '<div class="lbl"><b>'+c.name+'</b><small>'+c.price+'</small></div></div>';
+  }).join('');
+  document.querySelectorAll('#cat-list .catcard').forEach(function(node){
+    node.addEventListener('click', function(){ openCategory(node.getAttribute('data-cat')); });
+  });
+}
+function openCategory(id){
+  var cat = categories.filter(function(c){return c.id===id;})[0];
+  document.getElementById('cat-list').style.display='none';
+  var panel = document.getElementById('style-list');
+  panel.style.display='block';
+  var list = styles[id] || [];
+  var html = '<div class="backbar"><button id="back-to-cats">← All categories</button></div>'+
+    '<h3 style="margin-bottom:12px">'+cat.name+'</h3>';
+  if(list.length){
+    html += list.map(function(s){
+      return '<div class="card"><div class="thumb"><img src="'+s.img+'" alt="'+s.name+'"></div>'+
+        '<div class="cbody"><h3>'+s.name+'</h3><p>Beautifully styled by our expert team.</p>'+
+        '<div class="row"><span class="price">GHS '+s.price+'</span>'+
+        '<button class="btn sm" data-book-cat="'+id+'" data-book-name="'+s.name+'" data-book-price="'+s.price+'">Book This Style</button></div></div></div>';
+    }).join('');
+  }
+  html += '<div class="card"><div class="cbody"><h3>Custom / Other Style</h3>'+
+    '<p>Upload a reference photo and we\'ll quote you a starting price.</p>'+
+    '<input type="file" style="margin:8px 0 10px">'+
+    '<div class="box-pink">Admin will confirm final price before your appointment.</div>'+
+    '<button class="btn dark" data-go="book">Request Custom Style</button></div></div>';
+  panel.innerHTML = html;
+  document.getElementById('back-to-cats').addEventListener('click', resetServices);
+  panel.querySelectorAll('[data-book-cat]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      startBooking(btn.getAttribute('data-book-cat'), btn.getAttribute('data-book-name'), parseInt(btn.getAttribute('data-book-price'),10));
+    });
+  });
+}
+
+/* ---------------- PRODUCTS ---------------- */
+function renderProducts(){
+  document.getElementById('prod-list').innerHTML = products.map(function(p,i){
+    return '<div class="card"><div class="thumb"><img src="'+p.img+'" alt="'+p.name+'"></div>'+
+      '<div class="cbody"><h3>'+p.name+'</h3><div class="row"><span class="price">GHS '+p.price+'</span>'+
+      '<button class="btn sm" data-add-prod="'+i+'">Add</button></div></div></div>';
+  }).join('');
+  document.querySelectorAll('[data-add-prod]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      showToast(products[parseInt(btn.getAttribute('data-add-prod'),10)].name + ' added to your next booking');
+    });
+  });
+}
+
+/* ---------------- GIFT CARDS ---------------- */
+var gcSelected = 100;
+function renderGcPresets(){
+  var presets = [50,100,150,200,300];
+  document.getElementById('gc-presets').innerHTML = presets.map(function(v){
+    return '<span class="chip'+(v===gcSelected?' active':'')+'" data-gc="'+v+'">GHS '+v+'</span>';
+  }).join('');
+  document.getElementById('gc-total').textContent = gcSelected;
+  document.querySelectorAll('[data-gc]').forEach(function(c){
+    c.addEventListener('click', function(){
+      gcSelected = parseInt(c.getAttribute('data-gc'),10);
+      document.getElementById('gc-custom').value='';
+      renderGcPresets();
+    });
+  });
+}
+document.getElementById('gc-custom').addEventListener('input', function(e){
+  if(e.target.value){
+    gcSelected = Math.max(20, parseInt(e.target.value,10)||20);
+    document.getElementById('gc-total').textContent = gcSelected;
+  }
+});
+document.getElementById('gc-pay').addEventListener('click', function(){
+  showToast('Paystack checkout (demo) — gift card code emailed instantly to recipient');
+});
+
+/* ---------------- BOOKING FLOW ---------------- */
+var booking = null;
+function startBooking(cat, style, price){
+  booking = {step:1, category:cat, style:style, price:price, addons:[], discount:0, giftcard:0};
+  go('book');
+  renderBooking();
+}
+function bookingAddonsTotal(){
+  return booking.addons.reduce(function(s,a){return s+a.price;},0);
+}
+function bookingSubtotal(){ return (booking.price||0) + bookingAddonsTotal(); }
+function renderBookSteps(){
+  var html='';
+  for(var i=1;i<=6;i++){ html += '<span class="dot'+(i===booking.step?' active':'')+'"></span>'; }
+  document.getElementById('book-steps').innerHTML = html;
+}
+function renderBooking(){
+  var c = document.getElementById('book-content');
+  if(!booking){
+    document.getElementById('book-steps').innerHTML='';
+    c.innerHTML = '<div class="empty"><h3 style="margin-bottom:10px">Start Your Booking</h3>'+
+      '<p style="margin-bottom:16px">Choose a service to begin</p>'+
+      '<button class="btn dark" data-go="services">Browse Services</button></div>';
+    return;
+  }
+  renderBookSteps();
+  if(booking.step===1){
+    c.innerHTML = '<h3 style="margin-bottom:12px">Your Selection</h3>'+
+      '<div class="panel"><div class="rowline"><span>Style</span><b>'+booking.style+'</b></div>'+
+      '<div class="rowline"><span>Price</span><b>GHS '+booking.price+'</b></div></div>'+
+      '<button class="btn dark" id="bk-next">Continue</button>';
+    bind('bk-next', function(){ booking.step=2; renderBooking(); });
+  } else if(booking.step===2){
+    c.innerHTML = '<h3 style="margin-bottom:12px">Pre-Booking Questionnaire</h3>'+
+      '<label>Hair type</label><select id="q-type"><option>Natural hair</option><option>Permed/relaxed hair</option><option>Transitioning hair</option><option>Hair extensions only</option></select>'+
+      '<label>Hair length</label><select id="q-length"><option>Short (above shoulders)</option><option>Mid-length (shoulder to bra strap)</option><option>Long (bra strap and beyond)</option></select>'+
+      '<div class="box-pink">Hair length affects the duration and cost of your appointment.</div>'+
+      '<label>Add-ons</label>'+
+      addonsList.map(function(a,i){
+        var checked = booking.addons.some(function(x){return x.name===a.name;});
+        return '<div class="checkrow"><input type="checkbox" id="ad-'+i+'" data-addon="'+i+'" '+(checked?'checked':'')+'>'+
+          '<label for="ad-'+i+'" style="margin:0;font-weight:400">'+a.name+' — GHS '+a.price+'</label></div>';
+      }).join('')+
+      '<label>Special notes (optional)</label><textarea rows="2" placeholder="Anything you\'d like your stylist to know?"></textarea>'+
+      '<button class="btn dark" id="bk-next" style="margin-top:16px">Continue</button>';
+    document.querySelectorAll('[data-addon]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var a = addonsList[parseInt(cb.getAttribute('data-addon'),10)];
+        if(cb.checked){ booking.addons.push(a); } else { booking.addons = booking.addons.filter(function(x){return x.name!==a.name;}); }
+      });
+    });
+    bind('bk-next', function(){ booking.step=3; renderBooking(); });
+  } else if(booking.step===3){
+    c.innerHTML = '<h3 style="margin-bottom:12px">Select Date &amp; Time</h3>'+
+      '<label>Date</label><input type="date">'+
+      '<label>Time</label><select><option>10:00 AM</option><option>1:00 PM</option><option>3:30 PM</option></select>'+
+      '<button class="btn dark" id="bk-next" style="margin-top:16px">Continue</button>';
+    bind('bk-next', function(){ booking.step=4; renderBooking(); });
+  } else if(booking.step===4){
+    c.innerHTML = '<h3 style="margin-bottom:12px">Discount or Gift Card</h3>'+
+      '<label>Have a discount code?</label><input type="text" id="dcode" placeholder="e.g. BDAY10">'+
+      '<label>Have a gift card?</label><input type="text" id="gcode" placeholder="e.g. GFT-XXXXXX">'+
+      '<button class="btn outline dark" id="bk-apply" style="width:auto;margin-top:12px">Apply</button>'+
+      '<div id="apply-out" class="box-pink" style="display:none"></div>'+
+      '<button class="btn dark" id="bk-next" style="margin-top:16px">Continue</button>';
+    bind('bk-apply', function(){
+      var d = document.getElementById('dcode').value.trim();
+      var g = document.getElementById('gcode').value.trim();
+      var msgs=[];
+      if(d){ booking.discount = Math.round(bookingSubtotal()*0.1); msgs.push('Discount "'+d+'" applied: -GHS '+booking.discount+' (10%)'); }
+      if(g){ booking.giftcard = 50; msgs.push('Gift card "'+g+'" applied: -GHS 50'); }
+      if(!msgs.length) msgs.push('Enter a code above to apply it.');
+      var out = document.getElementById('apply-out');
+      out.style.display='block'; out.innerHTML = msgs.join('<br>');
+    });
+    bind('bk-next', function(){ booking.step=5; renderBooking(); });
+  } else if(booking.step===5){
+    var subtotal = bookingSubtotal();
+    var afterDiscount = subtotal - booking.discount;
+    var afterGift = Math.max(0, afterDiscount - booking.giftcard);
+    var fee = Math.round(afterGift*0.2);
+    var balance = afterGift - fee;
+    var rows = '<div class="rowline"><span>'+booking.style+'</span><b>GHS '+booking.price+'</b></div>'+
+      booking.addons.map(function(a){return '<div class="rowline"><span>'+a.name+'</span><b>GHS '+a.price+'</b></div>';}).join('')+
+      '<div class="rowline"><span>Subtotal</span><b>GHS '+subtotal+'</b></div>'+
+      (booking.discount?'<div class="rowline"><span>Discount</span><b>- GHS '+booking.discount+'</b></div>':'')+
+      (booking.giftcard?'<div class="rowline"><span>Gift card</span><b>- GHS '+booking.giftcard+'</b></div>':'');
+    c.innerHTML = '<h3 style="margin-bottom:12px">Review &amp; Confirm</h3>'+
+      '<div class="panel">'+rows+'</div>'+
+      '<div class="box-pink"><b>A non-refundable booking fee of GHS '+fee+' is required to confirm your appointment. This fee will be deducted from your total on the day of your appointment. The remaining balance of GHS '+balance+' is due at the salon.</b></div>'+
+      '<h3 style="margin:14px 0">Total due today: GHS '+fee+'</h3>'+
+      '<button class="btn dark" id="bk-next">Continue to Payment</button>';
+    bind('bk-next', function(){ booking.step=6; renderBooking(); });
+  } else if(booking.step===6){
+    var subtotal2 = bookingSubtotal();
+    var afterAll = Math.max(0, subtotal2 - booking.discount - booking.giftcard);
+    var fee2 = Math.round(afterAll*0.2);
+    var balance2 = afterAll - fee2;
+    c.innerHTML = '<div style="text-align:center;padding:20px 0 10px">'+
+      '<div style="font-size:48px">🎉</div>'+
+      '<h3 style="margin:10px 0">Booking Confirmed!</h3>'+
+      '<p style="color:var(--gray);font-size:13px;margin-bottom:16px">A confirmation email is on its way.</p>'+
+      '<div class="panel" style="text-align:left">'+
+      '<div class="rowline"><span>Service</span><b>'+booking.style+'</b></div>'+
+      '<div class="rowline"><span>Balance due at salon</span><b>GHS '+balance2+'</b></div></div>'+
+      '<button class="btn outline dark" style="margin-bottom:10px" data-go="profile" id="bk-toprofile">View in My Account</button>'+
+      '<button class="btn dark" data-go="home" id="bk-tohome">Back to Home</button></div>';
+    bind('bk-toprofile', function(){ booking=null; });
+    bind('bk-tohome', function(){ booking=null; });
+  }
+}
+function bind(id, fn){ var el = document.getElementById(id); if(el) el.addEventListener('click', fn); }
+
+/* ---------------- PROFILE ---------------- */
+var profTabs = ['appointments','loyalty','birthday','referrals','giftcards','consents','edit'];
+var profLabels = {appointments:'Appointments',loyalty:'Loyalty',birthday:'Birthday',referrals:'Referrals',giftcards:'Gift Cards',consents:'Consents',edit:'Edit Profile'};
+function renderProfileTab(tab){
+  document.getElementById('prof-tabs').innerHTML = profTabs.map(function(t){
+    return '<button class="'+(t===tab?'active':'')+'" data-ptab="'+t+'">'+profLabels[t]+'</button>';
+  }).join('');
+  document.querySelectorAll('[data-ptab]').forEach(function(b){
+    b.addEventListener('click', function(){ renderProfileTab(b.getAttribute('data-ptab')); });
+  });
+  var el = document.getElementById('prof-content');
+  if(tab==='appointments'){
+    el.innerHTML = '<div class="panel"><h3>Upcoming</h3>'+
+      '<div class="rowline"><span>Jul 3 · Knotless Braids · Linda</span><span class="badge pink">GHS 144 due</span></div>'+
+      '<button class="btn sm outline dark" style="margin-top:10px">Reschedule</button></div>'+
+      '<div class="panel"><h3>Past</h3>'+
+      '<div class="rowline"><span>May 12 · Closure Install</span><span class="badge green">Completed</span></div>'+
+      '<div class="rowline"><span>Mar 2 · Silk Press</span><span class="badge gray">Rescheduled</span></div></div>'+
+      '<p style="font-size:12px;color:var(--gray)">Booking fees are non-refundable. To reschedule, tap reschedule or contact us via WhatsApp.</p>';
+  } else if(tab==='loyalty'){
+    el.innerHTML = '<div class="panel"><h3>Loyalty Status</h3>'+
+      '<div style="font-size:26px;font-weight:700">320 pts <span class="badge pink" style="font-size:11px">Silver</span></div>'+
+      '<div style="font-size:12px;color:var(--gray);margin-top:6px">180 pts to Gold</div>'+
+      '<div class="progress"><div style="width:64%"></div></div></div>'+
+      '<div class="panel"><h3>Points History</h3>'+
+      '<div class="rowline"><span>Booking — Closure Install</span><b>+180</b></div>'+
+      '<div class="rowline"><span>Review submitted</span><b>+25</b></div>'+
+      '<div class="rowline"><span>First booking bonus</span><b>+50</b></div></div>'+
+      '<p style="font-size:12px;color:var(--gray)">100 points = GHS 10 discount. Redeem at checkout.</p>';
+  } else if(tab==='birthday'){
+    el.innerHTML = '<div class="panel" style="text-align:center">'+
+      '<div style="font-size:36px">🎂</div><h3 style="margin:8px 0">Happy birthday from Berls!</h3>'+
+      '<p style="font-size:12.5px;color:var(--gray)">10% off your next appointment. Valid until Jul 20, 2026.</p>'+
+      '<div class="codebox"><span style="font-size:11px;color:var(--gray)">Your code</span><div class="code">BDAY-AK0726</div></div></div>';
+  } else if(tab==='referrals'){
+    el.innerHTML = '<div class="panel"><h3>Your Referral Link</h3>'+
+      '<input type="text" readonly value="berlsbeautyhub.com/book?ref=AK7841">'+
+      '<button class="btn sm dark" id="copy-ref" style="margin-top:10px">Copy Link</button></div>'+
+      '<div class="panel"><div class="rowline"><span>Total referrals</span><b>12</b></div>'+
+      '<div class="rowline"><span>Successful referrals</span><b>7</b></div>'+
+      '<div class="rowline"><span>Points earned</span><b>700</b></div>'+
+      '<div style="font-size:12px;color:var(--gray);margin-top:8px">7 of 10 — 3 more to unlock your 10% discount</div>'+
+      '<div class="progress"><div style="width:70%"></div></div></div>';
+    bind('copy-ref', function(){ showToast('Referral link copied!'); });
+  } else if(tab==='giftcards'){
+    el.innerHTML = '<div class="panel"><h3>Purchased</h3>'+
+      '<div class="rowline"><span>Ama Mensah · GHS 150</span><span class="badge green">Active</span></div></div>'+
+      '<div class="panel"><h3>Received</h3>'+
+      '<div class="rowline"><span>GFT-93KD21</span><b>GHS 50</b></div></div>';
+  } else if(tab==='consents'){
+    el.innerHTML = '<div class="panel">'+
+      '<div class="rowline"><span>Marketing emails</span><label><input type="checkbox" checked> On</label></div>'+
+      '<div class="rowline"><span>SMS / WhatsApp</span><label><input type="checkbox" checked> On</label></div>'+
+      '<div class="rowline"><span>Photo/video consent</span><span style="font-size:11.5px;color:var(--gray)">Contact salon to withdraw</span></div></div>';
+  } else if(tab==='edit'){
+    el.innerHTML = '<div class="panel">'+
+      '<label>Full name</label><input type="text" value="Akosua Boateng">'+
+      '<label>Email</label><input type="email" value="akosua@email.com">'+
+      '<label>Phone</label><input type="tel" value="0240000000">'+
+      '<label>Date of birth</label><input type="date" value="2026-07-20">'+
+      '<button class="btn dark" style="margin-top:16px">Save Changes</button></div>';
+  }
+}
+
+/* ---------------- BELLA CHATBOT ---------------- */
+function bellaReply(msg){
+  msg = msg.toLowerCase();
+  if(msg.indexOf('birthday')>-1) return "On your birthday, we email you a unique 10% off code valid 30 days. See My Profile → Birthday 🎂";
+  if(msg.indexOf('referral')>-1) return "Share your referral link from My Profile → Referrals. Every 10 successful referrals unlocks a 10% off code!";
+  if(msg.indexOf('gift')>-1) return "Buy a gift card from the Home tab — pick an amount, add a recipient, and it's emailed instantly 🎁";
+  if(msg.indexOf('loyalty')>-1 || msg.indexOf('points')>-1) return "You earn 1 point per GHS 1 spent. 100 points = GHS 10 off!";
+  if(msg.indexOf('book')>-1) return "Tap Book Now below, pick your style, and I'll see you through checkout 💕";
+  if(msg.indexOf('fee')>-1 || msg.indexOf('cancel')>-1) return "We charge a 20% non-refundable booking fee. You can reschedule anytime, but cancellations aren't available.";
+  return "Great question! Reach out via WhatsApp or our Contact page and our team will help you directly 💖";
+}
+function bellaSend(){
+  var input = document.getElementById('bella-input');
+  var val = input.value.trim();
+  if(!val) return;
+  var body = document.getElementById('bella-body');
+  body.insertAdjacentHTML('beforeend', '<div class="bmsg user"></div>');
+  body.lastChild.textContent = val;
+  input.value='';
+  body.scrollTop = body.scrollHeight;
+  setTimeout(function(){
+    body.insertAdjacentHTML('beforeend', '<div class="bmsg bot"></div>');
+    body.lastChild.textContent = bellaReply(val);
+    body.scrollTop = body.scrollHeight;
+  }, 350);
+}
+document.getElementById('bella-fab').addEventListener('click', function(){
+  document.getElementById('bella-panel').classList.toggle('open');
+});
+document.getElementById('bella-close').addEventListener('click', function(){
+  document.getElementById('bella-panel').classList.remove('open');
+});
+document.getElementById('bella-send').addEventListener('click', bellaSend);
+document.getElementById('bella-input').addEventListener('keydown', function(e){ if(e.key==='Enter') bellaSend(); });
+
+/* ---------------- INIT ---------------- */
+renderHomeCats();
+renderHomeReviews();
+renderCatList();
+renderProducts();
+renderGcPresets();
+renderBooking();
+
+})();
+</script>
+</body>
+</html>
